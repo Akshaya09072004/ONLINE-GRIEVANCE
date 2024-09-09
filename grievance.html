@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit a Grievance - Student Support</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <img src="image/logo.png" alt="College Logo"> <!-- Add your logo image source here -->
+        <div>
+        <h1>Meenakshi Sundararajan Engineering College(Autonomous)</h1>
+        <h1>Submit Your Grievance</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="grievance.html">Grievance</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Grievance Form</h2>
+            <form id="grievance-form" method="POST" action="/submit-grievance">
+                <label for="name">Name:</label><br>
+                <input type="text" id="name" name="name"><br>
+                
+                <label for="dept">Department:</label><br>
+                <input type="text" id="dept" name="dept"><br>
+                
+                <label for="year">Year:</label><br>
+                <input type="text" id="year" name="year"><br>
+
+                <label for="email">Email:</label><br>
+                <input type="email" id="email" name="email"><br>
+                
+                <label for="grievance">Your Grievance:</label><br>
+                <textarea id="grievance" name="grievance" required></textarea><br>
+                
+                <input type="submit" value="Submit">
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Student Support. All Rights Reserved.</p>
+        <p>Contact Us:</p>
+        <ul>
+            <li>Email: <a href="mailto:support@studentsupport.com">support@studentsupport.com</a></li>
+            <li>Phone: 9790821869 / 8778745461 / 9840311869</li>
+            <li>Address: Meenakshi Sundararajan Engineering College 363, Arcot Road, Kodambakkam,Chennai 600024,Tamilnadu, India</li>
+        </ul>
+    </footer>
+   
+    <script src="js/scripts.js"></script>
+</body>
+</html>
+

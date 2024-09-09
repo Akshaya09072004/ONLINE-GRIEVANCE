@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        /* General reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: url('image/msec.png') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 100px; /* Adds space for the fixed header */
+            height: 100vh;
+        }
+
+        header {
+            width: 100%;
+            height: 15%;
+            background-color: #64B664; /* Green color from the image */
+            padding: 0px;
+            position: fixed; /* Fixes the header at the top */
+            top: 0;
+            left: 0;
+            z-index: 1000; /* Ensures the header stays above other elements */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        header img {
+            position: absolute;
+            top: 10px;
+            left: 230px;
+            height: 70px; /* Adjust size of the logo */
+        }
+
+        header p {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin: 0;
+        }
+
+        form {
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+    margin-top: 100px;
+    backdrop-filter: blur(10px); /* Adds a blur effect to the form's background */
+}
+
+        form input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        form button {
+            background-color: #64B664; /* Same green theme for the button */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        form button:hover {
+            background-color: #529f52; /* Darker shade for hover */
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+
+        #grievancesSection {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 1000px;
+            max-height: 600px;
+            overflow-y: auto;
+            margin-top: 100px;
+
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+
+        #grievancesSection h2 {
+            color: #64B664; /* Green theme for header */
+            margin-bottom: 10px;
+            text-align: center;
+     
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+
+        }
+
+        table th {
+            background-color: #f4f4f4;
+            color: #333;
+   
+            
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+       
+        }
+
+        table tr:nth-child(odd) {
+            background-color: #fff;
+           
+        }
+
+        /* Scrollbar Styling */
+        #grievancesSection::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #grievancesSection::-webkit-scrollbar-thumb {
+            background-color: #64B664; /* Scrollbar color matching the theme */
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="image/logo.png" alt="College Logo">
+        <p>Meenakshi Sundararajan Engineering College (Autonomous) <br> Admin Dashboard</p>
+    </header> 
+
+    <form id="loginForm">
+        <h1>Admin Login</h1>
+        <label for="username">Username:</label>
+        <input type="text" id="username" required><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" required><br>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <div id="grievancesSection" style="display: none;">
+        <h2>Grievances</h2>
+        <table id="grievancesTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Year</th>
+                    <th>Grievance</th>
+                    <th>Email</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Grievances will be populated here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const adminUsername = 'admin';
+        const adminPassword = '123';
+
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === adminUsername && password === adminPassword) {
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('grievancesSection').style.display = 'block';
+                loadGrievances();
+            } else {
+                alert('Invalid credentials');
+            }
+        });
+
+        function loadGrievances() {
+            fetch('/grievances')
+                .then(response => response.json())
+                .then(data => {
+                    const grievancesTableBody = document.querySelector('#grievancesTable tbody');
+                    grievancesTableBody.innerHTML = '';
+
+                    data.forEach(grievance => {
+                        const row = document.createElement('tr');
+
+                        row.innerHTML = `
+                            <td>${grievance.name}</td>
+                            <td>${grievance.dept}</td>
+                            <td>${grievance.year}</td>
+                            <td>${grievance.grievance}</td>
+                            <td>${grievance.email}</td>
+                            <td>${new Date(grievance.timestamp).toLocaleString()}</td>
+                        `;
+
+                        grievancesTableBody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching grievances:', error);
+                });
+        }
+    </script>
+</body>
+</html>
+
+
+
